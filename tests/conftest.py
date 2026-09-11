@@ -25,7 +25,7 @@ def tmp_dirs():
 
 
 @pytest.fixture()
-def service(tmp_dirs: Path) -> DocumentService:
+def service(tmp_dirs: Path):
     settings = Settings(
         database_url=f"sqlite:///{tmp_dirs}/test.db",
         index_dir=tmp_dirs / "indices",
@@ -34,12 +34,16 @@ def service(tmp_dirs: Path) -> DocumentService:
         chunk_overlap=40,
     )
     engine = make_engine(settings.database_url)
+    # NullPool-equivalent behavior on Windows: dispose explicitly at teardown
+    # so TemporaryDirectory cleanup never hits a locked sqlite file.
     init_db(engine)
     session_factory = make_session_factory(engine)
     embedder = Embedder(dim=64)  # hashed fallback path in CI (offline-safe)
     embedder._fallback = True
     store = FaissVectorStore(dim=64, index_dir=settings.index_dir)
-    return DocumentService(settings, session_factory, embedder, store)
+    svc = DocumentService(settings, session_factory, embedder, store)
+    yield svc
+    engine.dispose()
 
 
 @pytest.fixture()

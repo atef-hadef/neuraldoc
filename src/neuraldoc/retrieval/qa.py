@@ -78,7 +78,7 @@ def build_qa_graph(search_service: SearchService):
     def compose(state: _GraphState) -> _GraphState:
         hits = state.get("hits", [])
         draft = _extractive_draft(state["question"], hits)
-        context = "\n".join(h.chunk.text for h, _ in [(x.chunk, x.score) for x in hits][:3])
+        context = "\n".join(h.chunk.text for h in hits[:3])
         refined = _try_llm_refine(state["question"], draft, context)
         citations = [h.citation for h in hits]
         answer = refined or draft
