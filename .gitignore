@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+# Env
+.env
+# Data / models (large artifacts stay local)
+data/uploads/
+data/indices/
+data/db/*.db
+*.faiss
+*.sqlite3
+# Streamlit / misc
+.streamlit/
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
