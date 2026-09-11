@@ -9,7 +9,9 @@ venv/
 # Data / models (large artifacts stay local)
 data/uploads/
 data/indices/
+data/*.db
 data/db/*.db
+*.db
 *.faiss
 *.sqlite3
 # Streamlit / misc
