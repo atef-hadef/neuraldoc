@@ -1,4 +1,16 @@
-# 🧠 NeuralDoc — Intelligent Document Intelligence Platform
+<div align="center">
+
+# 🧠 NeuralDoc — Document Intelligence Platform
+
+![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=flat-square&logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![LangGraph](https://img.shields.io/badge/LangGraph-4338ca?style=flat-square)
+![FAISS](https://img.shields.io/badge/FAISS-0467DF?style=flat-square)
+[![CI](https://github.com/atef-hadef/neuraldoc/actions/workflows/ci.yml/badge.svg)](https://github.com/atef-hadef/neuraldoc/actions/workflows/ci.yml)
+![Tests](https://img.shields.io/badge/tests-11-22c55e?style=flat-square)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](LICENSE)
+
+</div>
 
 An end-to-end AI system that ingests documents (**PDF / DOCX / TXT**), extracts structured
 knowledge, enables **semantic search** (FAISS + local sentence-transformers), answers questions
@@ -7,6 +19,8 @@ knowledge, enables **semantic search** (FAISS + local sentence-transformers), an
 interactive **Streamlit** dashboard.
 
 Fully local by default (zero API cost). Optional OpenAI refinement when `OPENAI_API_KEY` is set.
+
+**Contents:** [Features](#-features) · [Architecture](#️-architecture) · [Quickstart](#-quickstart) · [API](#-api-reference) · [Testing](#-testing) · [Configuration](#️-configuration-env) · [Design decisions](#-key-design-decisions) · [Limitations](#-limitations-and-roadmap)
 
 ---
 
@@ -142,6 +156,14 @@ docker/  .github/workflows/ci.yml  docker-compose.yml
    chunk counts and sensitive to off-topic documents.
 4. **Index rebuild on delete** — simple and correct at portfolio scale; a
    production upgrade path would use FAISS ID maps + soft deletes.
+
+## 🚧 Limitations and roadmap
+
+- Question answering is **extractive** by default (`retrieve → compose`): it returns the best cited passages. An LLM refinement step is optional.
+- Retrieval is dense (cosine) only; a hybrid lexical + dense search and a re-ranker are the next step.
+- Anomaly detection works at document level (mean embedding + IsolationForest).
+- FAISS index is rebuilt on delete; for large collections, move to ID maps with soft deletes.
+- Next: retrieval evaluation set (hit rate, MRR), authentication, and streaming answers.
 
 ## 📄 License
 
